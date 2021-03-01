@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Rentify</string>
+    <string name="let_s_get_started">Let\'s Get Started</string>
+    <string name="new_property_value">New Property\nValue</string>
+    <string name="novice">Novice</string>
+    <string name="expert">Expert</string>
+    <string name="count_of_eighteen">%s of 18</string>
+    <string name="next">Siguiente</string>
+    <string name="back">Atrás</string>
+    <string name="income_expense">INGRESOS/GASTOS</string>
+    <string name="photos">FOTO </string>
+    <string name="property_info">  Información de propiedad </string>
+    <string name="user_info">  INFORMACIÓN DE USUARIO</string>
+    <string name="settings">  CONFIGURACIÓN </string>
+    <string name="files">  Archivos</string>
+    <string name="new_entry">  Nueva entrada</string>
+    <string name="dashboard">Dashboard</string>
+    <string name="save">  Guardar</string>
+    <string name="cover_photo">Foto de portada</string>
+    <string name="property_photo">Fotos de propiedad</string>
+    <string name="general_appearance">APARIENCIA GENERAL</string>
+    <string name="light_mode">Modo de luz</string>
+    <string name="dark_mode">Modo oscuro</string>
+    <string name="use_system_setting">Usar configuración del sistema</string>
+    <string name="high_contrast_light">Luz de contraste alto</string>
+    <string name="high_contrast_dark">Oscuro de contraste alto</string>
+    <string name="language">IDIOMA </string>
+    <string name="english">English</string>
+    <string name="spanish">Spanish</string>
+    <string name="working_mode">MODO DE TRABAJO </string>
+    <string name="default_setting">Configuración por defecto </string>
+    <string name="rentify_property_cal">Rentify Property Calculator</string>
+    <string name="gallery">Gallery</string>
+    <string name="camera">Camera</string>
+    <string name="cancel">  Cancelar</string>
+    <string name="support">SOPORTE</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="no">No</string>
+    <string name="yes">Yes</string>
+    <string name="user_agreement">ACUERDO DE USUARIO</string>
+
+    <string name="general">General</string>
+    <string name="feedback">realimentación </string>
+    <string name="appearance"> APARIENCIA</string>
+    <string name="i_need_help"> Necesito ayuda </string>
+    <string name="have_safety_ques"> Tengo una pregunta de seguridad </string>
+    <string name="have_privacy_ques"> Tengo una pregunta de privacidad</string>
+    <string name="website">   Sitio web </string>
+    <string name="spotted_bug"> I Spotted a Bug </string>
+    <string name="have_suggestion">Tengo una sugerencia </string>
+    <string name="report"> reporte </string>
+    <string name="need_help_with"> Necesito ayuda con el:</string>
+    <string name="have_safety_ques_on">   Tengo una pregunta de seguridad sobre: </string>
+    <string name="have_privacy_ques_on">   Tengo una pregunta de privacidad sobre: </string>
+    <string name="spotted_bug_on">   Vi un error en el:</string>
+    <string name="have_suggestion_on">   Tengo una sugerencia sobre: </string>
+    <string name="update_defaultSetting">  ¿Desea actualizar la configuración predeterminada?</string>
+    <string name="reset_setting_msg">Are you sure, you want to restore the settings.</string>
+    <string name="whats_purchase_price">   ¿Cuál es el precio de compraventa?  </string>
+    <string name="whats_new_property_value">   ¿Cuál es el nuevo valor de la propiedad tras repararla? </string>
+    <string name="whats_amount_of_rent">   ¿Cuál es alquiler mensual que le cobras a tu inquilino? </string>
+    <string name="not_counting_first_rent">   Sin considerar el alquiler del primer mes, ¿qué depósito de garantía le pediste a tu inquilino? </string>
+    <string name="how_much_downpayment">   ¿Cuánto dinero anticiparás para comprar la propiedad? </string>
+    <string name="any_loan_fee">  ¿Hay comisiones del préstamo que no figuran en el saldo del mismo? (puntos, tasación, informes de inspección, etc.)</string>
+    <string name="enter_improvement_cost">   ¿Cuánto dinero en total invertirás en la propiedad para entregársela al inquilino? Ingresa gastos de mejoras si es que existen.</string>
+    <string name="enter_yearly_rental_increase">   ¿Cuál es el aumento anual de alquiler que le está cobrando a su inquilino? %s es un valor predeterminado. Puede cambiar el valor predeterminado ingresando un nuevo porcentaje.</string>
+    <string name="yearly_appreciation_rate">   ¿Cuál es la tasa de plusvalía anual de esta área? </string>
+    <string name="per_loan_payment_to_principal">   ¿Qué porcentaje del pago del préstamo se aplica al capital del mismo? El valor por defecto es %s del pago del préstamo. Puedes cambiarlo ingresando un nuevo porcentaje.</string>
+    <string name="enter_impound_account">   La cuenta de depósito en garantía es para reparaciones o reemplazos más grandes. El valor por defecto es %s del precio de compraventa. Puedes cambiarlo ingresando un nuevo porcentaje.</string>
+    <string name="budget_for_vacancy_rate">   ¿Desea presupuestar para una tasa de vacantes? El valor predeterminado se establece en %s de los ingresos. Puede cambiar el valor predeterminado ingresando un nuevo porcentaje. </string>
+    <string name="intrest_rate_for_lender">   ¿Qué tasa de interés cobra el prestamista? </string>
+    <string name="whats_property_tax_rate">   ¿Cuál es la tasa del impuesto a la propiedad? El valor predeterminado se establece en %s del precio de compra. Puede cambiar el valor predeterminado ingresando un nuevo porcentaje. </string>
+    <string name="whats_homeowners_insurance">   ¿Cuál es el monto del seguro de vivienda? El valor por defecto es %s del precio de compraventa. Puedes cambiarlo ingresando un nuevo porcentaje. </string>
+    <string name="cost_of_repair_maintenance">   ¿Cuál es el costo de reparaciones y mantenimiento (jardinero, control de plagas, reparaciones generales, etc.)? El porcentaje por defecto es %s del precio de compraventa. Puedes cambiarlo ingresando un nuevo porcentaje.</string>
+    <string name="hire_property_management_company">   ¿Vas a contratar una empresa de administración de propiedades? Ingrese el costo de gestión anual. </string>
+    <string name="add_deduction">  ¿Necesitas agregar un descuento que no haya figurado? Ingresa un monto anual en dólares si es necesario. </string>
+    <string name="ur_in_edit_mode">   está en modo de edición y no puede acceder a la configuración</string>
+    <string name="generate_summary_add_property_info_photo">   ¿Deseas generar el informe de resumen de la propiedad? Realiza los siguientes pasos. \n 1. Agrega la información de tu propiedad. \n 2 Agrega una foto de la propiedad.</string>
+    <string name="generate_summary_add_property_photo">   ¿Deseas generar el informe de resumen de la propiedad? Realiza los siguientes pasos. \n 1. Agrega una foto de la propiedad. </string>
+    <string name="generate_summary_add_property_info"> Would you like to generate the Summary Report of property. Please complete following steps. \n 1.  Please add your property information </string>
+    <string name="want_delete_file">  ¿Estás segura de que quieres eliminar este archivo?</string>
+    <string name="ok">Okay </string>
+    <string name="add_new_folder">   Añadir nueva carpeta</string>
+    <string name="enter_folder_name">   Ingrese el nombre de la carpeta </string>
+    <string name="plz_enter_folder_name">   Por favor ingrese el nombre de la carpeta</string>
+    <string name="plz_create_folder_first">   Por favor cree primero cualquier carpeta </string>
+    <string name="done"> Hecho</string>
+    <string name="no_file_exist_inthis_folder">   No existe ningún archivo en esta carpeta</string>
+    <string name="delete_folder_will_delete_all_file">   Si elimina esta carpeta, se eliminarán todos los archivos con esa carpeta</string>
+    <string name="edit_folder">  Editar carpeta</string>
+    <string name="update">  Actualizar</string>
+    <string name="want_save_file">  ¿Estás seguro de que quieres guardar el archivo? </string>
+    <string name="file_update_success">   Actualización de archivo exitosa</string>
+    <string name="file_save_success">   Archivo guardado correctamente</string>
+    <string name="photo_save_success"> Photo\'s save successfully  </string>
+    <string name="userinfo_save_success">  Información del usuario guardar correctamente</string>
+    <string name="property_info_save_success">   Información de la propiedad guardar correctamente</string>
+    <string name="changes_saved">   Los cambios se guardan</string>
+    <string name="purchase_price">   Precio de compraventa</string>
+    <string name="market_rent">    Alquiler a precio de mercado</string>
+    <string name="rental_deposit">   Depósito de alquiler</string>
+    <string name="loan_down_payment">   Anticipo de préstamo</string>
+    <string name="loan_cost">  Costo de préstamo </string>
+    <string name="improvements">   Mejoras</string>
+    <string name="yearly_rental_inc">  Aumento anual de alquiler</string>
+    <string name="area_appreciation">   Plusvalía de área</string>
+    <string name="principal_payment">  Pago de capital </string>
+    <string name="impound_account">   Cuenta de depósito en garantía </string>
+    <string name="vacancy_rate">  Tasa de vacancia </string>
+    <string name="loan_intrest">   Interés de préstamo</string>
+    <string name="property_tax">   Impuesto a la propiedad </string>
+    <string name="homeowners_insurance">   Seguro de vivienda </string>
+    <string name="maintenance_exp">   Gasto de mantenimiento(%) </string>
+    <string name="yearly_managemnet">  Gestión anual($)</string>
+    <string name="yearly_other_exp">   Otros gastos anuales </string>
+    <string name="reset_settings">  Reiniciar ajustes</string>
+    <string name="year"> año </string>
+    <string name="want_restore_setting">   ¿Está seguro de que desea restaurar la configuración?</string>
+
+
+    <string name="terms_amp_conditions"><![CDATA[Terms & Conditions]]></string>
+    <string name="terms_data">Awetarky Inc. Makes No Representations or Warranties Regarding Content\n\n
+The content and associated financial model in the Real Estate Investing Analyst (the “App”) are constantly evolving to address issues such as potential errors, changing market conditions and products, and user feedback. Therefore, the content and all analysis associated with the App are provided to you on an “as-is” and “as available” basis. Awetarky Inc. makes no representations or warranties of any kind, express or implied, as to the operation of the App or the information, content, materials, products, or services included on or associated with the App. You expressly agree that your use of the App and all products and services included on or associated with the App is at your sole risk. It is further agreed to that any and all financial information gathered from this “App” will not be the user’s final bases for verifying the investment. As in all investments, you need to contact your accountant and attorney prior to making any real estate investment for there review.\n\n
+Awetarky Inc. does not make any representations, warranties or guarantees, express or implied, regarding the accuracy of the calculations, Default settings, correctness, or completeness of the content or the services and products associated with the App, nor the safety, reliability, title, timeliness, completeness, merchantability, conformity, or fitness for a particular purpose of the content or the services and products associated with the App. It is your sole responsibility to independently evaluate the accuracy, correctness, or completeness of the content and the services and products associated with the App. The content of the App is intended only to assist you with financial due diligence and is broad in scope and does not consider your specific financial situation. Your financial situation is unique, and the information and analysis may not be appropriate for your situation. Accordingly, before making any final decisions or implementing any financial strategy, Awetarky Inc. recommends that you obtain additional information and advice of your accountant and other financial advisors who are fully aware of your specific circumstances.\n\n
+Limitations on Awetarky Inc. Liability\n\n
+Awetarky Inc. shall in no event be responsible to, or liable to, you, or any third party, whether in contract, warranty, tort (including negligence) or otherwise, for any damage, including, but not limited to, special, incidental, indirect, or consequential damages that include, but are not limited to, damages for any loss of profit, revenue, or business, as a direct or indirect result of:
+(I) Your breach or violation of the terms and conditions of this agreement;
+(II) Your access and use of the App;
+(III) Your delay in accessing or inability to access or use the App for any reason;
+(IV) Your downloading of any of the content or the collective work for your use;
+(V) Your reliance upon or use of the content or the collective work; or
+(VI) Any information, software, products, or services obtained through the App, or otherwise, arising out of the use of the App, whether resulting in whole or in part, from breach of contract, tortuous behavior, negligence, strict liability or otherwise, even if Awetarky Inc. and/or its suppliers had been advised of the possibility of damages.\n\n
+Awetarky Inc. liability and the liability of its affiliates, directors, officers, employees, and agents arising out of this agreement shall not exceed $100.\n\n
+You specifically acknowledge that Awetarky Inc. shall not be liable for user-generated content or the defamatory, offensive, or illegal conduct of any third party, and that the risk of harm or damage from such user-generated content and third-party conduct rests entirely with you.\n\n
+You and we agree that any cause of action arising out of or related to the App must commence within one (1) year after the cause of action accrues. Otherwise, such cause of action is permanently barred.\n\n
+Certain state laws do not allow limitations on implied warranties or the exclusion or limitation of certain damages. If these laws apply to you, some or all of the above disclaimers, exclusions, or limitations may not apply to you.\n\n
+Your Indemnification of Awetarky Inc.\n\n
+You shall defend, indemnify, and hold harmless Awetarky Inc. and its officers, directors, shareholders, employees, independent contractors, agents, representatives, and affiliates from and against all claims and expenses, including, but not limited to, attorneys’ fees, arising out of, or attributable to: (I) any breach or violation of this Agreement by you; (II) your access or use of the App; and/or (III) your transmissions, submissions, or postings (i.e., your own User Generated Content).\n\n
+Amendments of this Agreement\n\n
+Awetarky Inc. reserves the right to update, amend, and/or change this Agreement at any time in its sole discretion and without notice. Updates to this Agreement will be posted here. You are encouraged to revisit this Agreement from time to time in order to review any changes that have been made. Awetarky Inc.  last update was November 1, 2019. Your continued access and use of the App following the posting of any such changes shall automatically be deemed your acceptance of all changes.\n\n
+
+Awetarky Inc. Remedies\n\n
+You acknowledge that Awetarky Inc. may be irreparably damaged if this Agreement is not specifically enforced, and damages at law would be an inadequate remedy. Therefore, in the event of a breach or threatened breach of any provision of this Agreement by you, Awetarky Inc.  shall be entitled, in addition to all rights and remedies, to an injunction restraining such breach or threatened breach, without being required to show any actual damage or to post an injunction bond, and/or to a decree for specific performance of the provisions of this Agreement. For purposes of this Agreement, you agree that any action or proceeding with regards to such injunction restraining such breach or threatened breach shall be brought in the courts of record of Los Angeles County, California, or the United States District Court, so CAL District of California. You consent to the jurisdiction of such court and waive any objection to the laying of the venue of any such action or proceeding in such court. You agree that service of any court paper may be affected on such party by mail or in such other manner as may be provided under applicable laws, rules of procedure, or local rules.\n\n
+Governing Law; Arbitration\n\n
+You agree that: (I) the App shall be deemed solely based in the State of California; and (II) the App shall be deemed a mobile software application that does not give rise to personal jurisdiction over Awetarky Inc., either specific or general, in jurisdictions other than the State of California. This Agreement is to be governed by and construed in accordance with the internal laws of the State of California, without regard for principles of conflicts of laws. Any civil action, claim, dispute, or proceeding arising out of or relating to this Agreement, except for an injunctive action regarding a breach or threatened breach of any provision of this Agreement by you as provided above, shall be referred to final and binding arbitration, before a single arbitrator, under the commercial arbitration rules of the American Arbitration Association in Los Angeles County, California.\n\n
+THEREFORE, YOU DO NOT HAVE THE OPPORTUNITY TO GO TO COURT TO ASSERT OR DEFEND YOUR RIGHTS AND YOU GIVE UP YOUR RIGHT TO PARTICIPATE IN OR BRING CLASS ACTIONS. BY USING THE APP YOU CONSENT TO THESE RESTRICTIONS.\n\n
+You and Awetarky Inc. shall select the arbitrator, and if you and Awetarky Inc. are unable to reach agreement on selection of the arbitrator within thirty (30) days after the notice of arbitration is served, then the American Arbitration Association shall select the arbitrator. Arbitration shall not commence until the party requesting it has deposited Two Thousand Dollars ($2,000.00) with the arbitrator for the arbitrator’s fees and costs. The party requesting arbitration shall advance such sums as are required from time to time by the arbitrator to pay the arbitrator’s fees and costs until the prevailing party is determined or the parties have agreed in writing to an alternate allocation of fees and costs.\n\n
+Judgment upon any award rendered by the arbitrator shall be final, binding, and conclusive upon you and Awetarky Inc.  and you’re and Awetarky Inc. respective administrators, executors, legal representatives, successors and assigns, and may be entered in any court of competent jurisdiction. Notwithstanding the previous sentence, in no event shall either you or Awetarky Inc. be entitled to punitive, special, indirect or consequential damages and both you and Awetarky Inc.  hereby waive your and Awetarky Inc.  respective rights to any punitive, special, indirect, or consequential damages, including, but not limited to, damages for any loss of profit, revenue, or business.\n\n
+Should a dispute arise, and should the arbitration provisions herein become inapplicable or unenforceable, or in any instance of any lawsuit between you and Awetarky Inc., jurisdiction over and venue of any suit shall be exclusively in the state and federal courts sitting in Los Angeles, California.\n\n
+Miscellaneous\n\n
+If any portion of this Agreement is deemed unlawful, void or unenforceable by any arbitrator or court of competent jurisdiction, this Agreement as a whole shall not be deemed unlawful, void or unenforceable, but only that portion of this Agreement that is unlawful, void, or unenforceable shall be stricken from this Agreement.\n\n
+The headings contained in this Agreement are for convenience of reference only, are not to be considered a part of this Agreement and shall not limit or otherwise affect in any way the meaning or interpretation of this Agreement.\n\n
+All covenants, agreements, representations, and warranties made in this Agreement, as may be amended by Awetarky Inc. from time to time, shall survive your acceptance of this Agreement and the termination of this Agreement.</string>
+    <string name="google_apikey">AIzaSyCqoVC17UDk0bxWVLhh2aXDPVoPYzEeio4</string>
+
+    <string name="preview">Vista previa</string>
+    <string name="color">GRÁFICOS DE COLOR</string>
+    <string name="modes">Modes</string>
+    <string name="accessible_modes">Modos accesibles</string>
+    <string name="property_value_after_renovation">Valor de propiedad tras renovación</string>
+    <string name="annual_rental_increase_">Aumentos anuales de alquiler(%)</string>
+    <string name="area_appreciation_growth">Plusvalía de área(%)</string>
+    <string name="principal_payments">Pagos de capital(%)</string>
+    <string name="impound_account_">Cuenta de depósito en garantía(%)</string>
+    <string name="vacancy_factor_">Tasa de vacancia(%)</string>
+    <string name="loan_interest_">Interés de préstamo(%)</string>
+    <string name="property_tax_">Impuesto a la propiedad(%)</string>
+    <string name="homeowners_insurance_">Seguro de vivienda(%)</string>
+    <string name="maintenance_expense_">Gasto de mantenimiento(%)</string>
+    <string name="annual_management_">Gestión anual($)</string>
+    <string name="annual_other_expenses_">Otros gastos anuales($)</string>
+    <string name="annual_expenses">Gastos anuales</string>
+    <string name="monthly_cash_requirement">Efectivo mensual necesario</string>
+    <string name="annual_income">Ingresos anuales</string>
+    <string name="cash_on_cash_return">Retorno de caja</string>
+    <string name="percentage_cash_on_return">Porcentaje de retorno de caja</string>
+    <string name="annual_net_operating_income">Ingresos de explotación netos anuales</string>
+    <string name="welcome_to_rentify">Welcome to Rentify</string>
+    <string name="invest_for_long_term">Invertir a largo plazo</string>
+    <string name="select_language">Seleccionar idioma</string>
+    <string name="property_address">Dirección de propiedad</string>
+    <string name="square_feet">Pie cuadrado</string>
+    <string name="bed_rooms">Dormitorios</string>
+    <string name="bath_rooms">Baños</string>
+    <string name="lot_size">Tamaño de lote</string>
+    <string name="city">Ciudad</string>
+    <string name="state">Estado</string>
+    <string name="postcode">Código postal</string>
+    <string name="user_name">Nombre de usuario</string>
+    <string name="company_name">Nombre de empresa</string>
+    <string name="email">E-mail</string>
+    <string name="phone_number">Número de teléfono</string>
+    <string name="address">Dirección</string>
+    <string name="logo">Logo</string>
+    <string name="select_mode">Select Mode</string>
+    <string name="agree_terms_amp_conditions"><![CDATA[Acepto los términos y condiciones]]></string>
+
+    <string name="year1">Year1</string>
+    <string name="year2">Year2</string>
+    <string name="year3">Year3</string>
+    <string name="year4">Year4</string>
+    <string name="year5">Year5</string>
+    <string name="your_purchase_price_n_s">Your Purchase Price\n%s</string>
+    <string name="powerd_by_rentify">Powered By Rentify</string>
+    <string name="client_summary_report">Client summary Report</string>
+    <string name="add_folder">Add Folder</string>
+    <string name="down_payment">Down Payment</string>
+    <string name="capital_improvement">Capital Improvements</string>
+    <string name="cash_req">Cash Requirement</string>
+    <string name="principal_reduction">Principal Reduction</string>
+    <string name="annual_principal_reduction">Annual Principal Reduction</string>
+    <string name="appreciation_growth">Appreciation Growth</string>
+    <string name="annual_depreciation">Annual Depreciation</string>
+    <string name="internal_rate_of_return">Internal Rate Of Return</string>
+    <string name="initial_upside_benefit">Initial Upside Benefit</string>
+    <string name="sttucture_depreciation">Structure depreciation</string>
+    <string name="operating_exp">Operating expenses</string>
+    <string name="loan_cost_other_exp">Loan cost/Other expenses</string>
+    <string name="tax_benefit_schedule">Tax Benefit Schedule</string>
+    <string name="rental_deposit_on_hold">Rental deposit on hold</string>
+    <string name="this_field_req">This Field is Required!</string>
+    <string name="this_is_example_text">This is example text</string>
+    <string name="i_need_help_with_the">I need help with the :</string>
+    <string name="i_have_safety_ques_on_the">\"I have a safety question on the : \"</string>
+    <string name="i_have_privacy_ques_on_the">\"I have a privacy question on the : \"</string>
+    <string name="i_spotted_bug_on_the">\"I Spotted a Bug on the : \"</string>
+    <string name="i_have_suggestion_on_the">\"I have a Suggestion on the : \"</string>
+    <string name="novice_page_1_18">Novice pages 1-18</string>
+    <string name="income_exp_page">Income/Expense page</string>
+    <string name="graphic_pages_1_7">Graphic pages 1-7</string>
+    <string name="dashboard_photos">Dashboard Photos</string>
+    <string name="dashboard_property_info">Dashboard Property Information</string>
+    <string name="dashboard_user_info">Dashboard User Info</string>
+    <string name="dashboard_files">Dashboard Files</string>
+    <string name="dashboard_new_entry">Dashboard New Entry</string>
+    <string name="settings_appearance">Settings appearance</string>
+    <string name="settings_language">Settings language</string>
+    <string name="settingsworking_mode">Settings working mode</string>
+    <string name="settings_default_settings">Settings default settings</string>
+    <string name="unlisted_issue">Unlisted issues</string>
+    <string name="cash_req_caps">CASH REQUIREMENT</string>
+    <string name="property_value">Property Value</string>
+    <string name="annual_exp_flow_caps">ANNUAL EXPENSE FLOW</string>
+    <string name="loan_amount">Loan Amount</string>
+    <string name="repair_and_maintance">Repair and Maintenance</string>
+    <string name="management">Management</string>
+    <string name="other_expensive">Other Expensive</string>
+    <string name="file_saved_successfully">File saved successfully</string>
+    <string name="annual_rental_increase">Annual Rental Increases</string>
+    <string name="vacancy_factor">Vacancy Factor</string>
+    <string name="annual_other_expenses">Annual other expenses</string>
+    <string name="folder">FOLDER</string>
+    <string name="cant_open_in_edit_mode">You are in edit mode and cannot access settings.</string>
+
+</resources>

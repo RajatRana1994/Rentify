@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="8dp">
+
+    <EditText
+        android:id="@+id/edtAmount"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:background="@drawable/edt_rounded_theme_drawable"
+        android:hint="$0.00"
+        android:maxLines="1"
+        android:paddingStart="10dp"
+        android:paddingTop="16dp"
+        android:paddingEnd="10dp"
+        android:digits="0123456789.,"
+        android:maxLength="20"
+        android:paddingBottom="16dp"
+        android:singleLine="true"
+        android:textColor="@color/black"
+        android:textColorHint="@color/black"
+        android:inputType="numberDecimal"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/edtTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:background="@color/white"
+        android:text="@string/purchase_price"
+        android:textStyle="bold"
+        android:textColor="@color/blue_theme"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/edtAmount"
+        app:layout_constraintStart_toStartOf="@+id/edtAmount"
+        app:layout_constraintTop_toTopOf="@+id/edtAmount" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
