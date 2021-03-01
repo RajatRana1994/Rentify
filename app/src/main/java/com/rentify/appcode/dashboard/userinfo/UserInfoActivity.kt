@@ -2,6 +2,7 @@ package com.rentify.appcode.dashboard.userinfo
 
 import android.app.Activity
 import android.app.Dialog
+import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
@@ -21,7 +22,6 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.FileProvider
 import com.google.android.libraries.places.api.model.AddressComponent
 import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.widget.Autocomplete
@@ -41,23 +41,16 @@ import com.rentify.util.Extensions.Companion.showDoneDialog
 import com.rentify.util.Extensions.Companion.statusBarTheme
 import com.rentify.util.Extensions.Companion.viewTheme
 import com.theartofdev.edmodo.cropper.CropImage
-import com.theartofdev.edmodo.cropper.CropImageView
 import id.zelory.compressor.Compressor
-import kotlinx.android.synthetic.main.activity_property_info.*
 import kotlinx.android.synthetic.main.activity_user_info.*
-import kotlinx.android.synthetic.main.activity_user_info.btnBack
-import kotlinx.android.synthetic.main.activity_user_info.btnNext
-import kotlinx.android.synthetic.main.activity_user_info.edtCity
-import kotlinx.android.synthetic.main.activity_user_info.edtPostCode
-import kotlinx.android.synthetic.main.activity_user_info.edtState
-import kotlinx.android.synthetic.main.activity_user_info.headerTool
 import java.io.File
-import java.io.IOException
 import java.util.*
 
 
 class UserInfoActivity : AppCompatActivity(), CheckPermission.PermissionListener, TextWatcher {
-    val displayMetrics by lazy {  DisplayMetrics() }
+    private var imageUri: Uri? = null
+
+    private val displayMetrics by lazy { DisplayMetrics() }
 
     override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
         if (currentFocus != null) {
@@ -71,8 +64,7 @@ class UserInfoActivity : AppCompatActivity(), CheckPermission.PermissionListener
         var logo_url = ""
         var new_logo_url: Pair<String, String>? = null
         fun createIntent(
-            context: Context, isBack: Boolean = true
-            , addinfo: Boolean=true
+            context: Context, isBack: Boolean = true, addinfo: Boolean = true
         ): Intent {
             return Intent(context, UserInfoActivity::class.java).apply {
                 putExtra("isBack", isBack)
@@ -82,8 +74,8 @@ class UserInfoActivity : AppCompatActivity(), CheckPermission.PermissionListener
     }
 
 
-    val isBackExtra by lazy { intent.getBooleanExtra("isBack", true) }
-    val addinfo by lazy { intent.getBooleanExtra("addinfo", false) }
+    private val isBackExtra by lazy { intent.getBooleanExtra("isBack", true) }
+    private val addinfo by lazy { intent.getBooleanExtra("addinfo", false) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -109,8 +101,6 @@ class UserInfoActivity : AppCompatActivity(), CheckPermission.PermissionListener
         edtCity.addTextChangedListener(this)
         edtState.addTextChangedListener(this)
         edtPostCode.addTextChangedListener(this)
-
-//        PhoneNumberUtils.formatNumber(edtPhoneNum.text.toString(),"US")
         btnNext.setOnClickListener {
             if (edtUserName.text.isEmpty()) {
                 setError(edtUserName)
@@ -156,15 +146,24 @@ class UserInfoActivity : AppCompatActivity(), CheckPermission.PermissionListener
                     if (isBackExtra) {
                         onBackPressed()
                     } else {
-                        if (addinfo.not()){
-                            startActivity(PropertyInfoActivity.createIntent(this@UserInfoActivity,true,addinfo))
-                        }else
-                            startActivity(Intent(this@UserInfoActivity, GetStartedActivity::class.java))
+                        if (addinfo.not()) {
+                            startActivity(
+                                PropertyInfoActivity.createIntent(
+                                    this@UserInfoActivity,
+                                    true,
+                                    addinfo
+                                )
+                            )
+                        } else
+                            startActivity(
+                                Intent(
+                                    this@UserInfoActivity, GetStartedActivity::class.java
+                                )
+                            )
                     }
                 }
             }
         }
-
         ivCoverPhoto.setOnClickListener {
             CheckPermission(this, this)
         }
@@ -193,7 +192,7 @@ class UserInfoActivity : AppCompatActivity(), CheckPermission.PermissionListener
         }
     }
 
-    fun setError(view: EditText) {
+    private fun setError(view: EditText) {
         edtUserName.hint =
             if (edtUserName == view) if (view.text.isEmpty()) getString(R.string.this_field_req) else null else null
         edtCompanyName.hint =
@@ -222,113 +221,136 @@ class UserInfoActivity : AppCompatActivity(), CheckPermission.PermissionListener
         showImagePop()
     }
 
-    val mBuilder: Dialog by lazy { Dialog(this) }
-    fun showImagePop() {
-        mBuilder.setContentView(R.layout.camera_dialog);
-        mBuilder.getWindow()!!.getAttributes().windowAnimations = R.style.DialogAnimation;
-        mBuilder.window!!.setGravity(Gravity.BOTTOM)
-        mBuilder.window!!.setLayout(
-            ViewGroup.LayoutParams.MATCH_PARENT,
-            ViewGroup.LayoutParams.WRAP_CONTENT
-        )
-        mBuilder.findViewById<TextView>(R.id.titleCamera)
-            .setOnClickListener {
+    private val mBuilder: Dialog by lazy {
+        Dialog(this).apply {
+            setContentView(R.layout.camera_dialog);
+            window?.apply {
+                attributes.windowAnimations = R.style.DialogAnimation;
+                setGravity(Gravity.BOTTOM)
+                setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+            }
+            findViewById<TextView>(R.id.titleCamera).setOnClickListener {
                 mBuilder.dismiss()
                 dispatchTakePictureIntent()
             }
-        mBuilder.findViewById<TextView>(R.id.titleGallery)
-            .setOnClickListener {
+            findViewById<TextView>(R.id.titleGallery).setOnClickListener {
                 mBuilder.dismiss()
                 dispatchTakeGalleryIntent()
             }
-        mBuilder.findViewById<TextView>(R.id.titleCancel)
-            .setOnClickListener { mBuilder.dismiss() }
-        mBuilder.show();
+            findViewById<TextView>(R.id.titleCancel).setOnClickListener { mBuilder.dismiss() }
+
+        }
+    }
+
+    private fun showImagePop() {
+        if (!mBuilder.isShowing) {
+            mBuilder.show();
+        }
     }
 
     private fun dispatchTakePictureIntent() {
-        Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
-            // Ensure that there's a camera activity to handle the intent
-            takePictureIntent.resolveActivity(packageManager)?.also {
-                // Create the File where the photo should go
-                val photoFile: File? = try {
-                    ConstUtils.createImageFile(this@UserInfoActivity)
-                } catch (ex: IOException) {
-                    // Error occurred while creating the File
-                    null
-                }
-                // Continue only if the File was successfully created
-                photoFile?.also {
-                    val photoURI: Uri = FileProvider.getUriForFile(
-                        this,
-                        "$packageName.provider",
-                        it
+        imageUri = null
+        val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        try {
+            if (takePictureIntent.resolveActivity(packageManager) != null) {
+                val values = ContentValues()
+                values.put(MediaStore.Images.Media.TITLE, getString(R.string.app_name))
+                values.put(MediaStore.Images.Media.DESCRIPTION, "From Camera")
+                imageUri =
+                    contentResolver.insert(
+                        MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values
                     )
-                    logo_url = photoURI.toString()
-                    takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
-                    startActivityForResult(takePictureIntent, ConstUtils.REQUEST_TAKE_PHOTO)
-                }
+                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri)
+                startActivityForResult(takePictureIntent, ConstUtils.REQUEST_TAKE_PHOTO)
             }
-
+        } catch (e: Exception) {
+            Log.e("camera error", e.localizedMessage.toString())
+            e.printStackTrace()
         }
+
     }
 
     private fun dispatchTakeGalleryIntent() {
-        val intent = Intent(Intent.ACTION_GET_CONTENT).apply {
-            type = "image/*"
-        }
-        if (intent.resolveActivity(packageManager) != null) {
-            startActivityForResult(intent, ConstUtils.REQUEST_IMAGE_GET)
-        }
+        val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
+        intent.addCategory(Intent.CATEGORY_OPENABLE)
+        intent.putExtra(Intent.EXTRA_LOCAL_ONLY, true)
+        intent.type = "*/*"
+        intent.putExtra(Intent.EXTRA_MIME_TYPES, arrayOf("image/png", "image/jpg", "image/jpeg"))
+        startActivityForResult(
+            Intent.createChooser(intent, "Choose Image From"), ConstUtils.REQUEST_IMAGE_GET
+        )
+
     }
+
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-//        if (edtAddress.hasFocus()) edtAddress.clearFocus()
-        if (resultCode == Activity.RESULT_OK) {
-            if (requestCode == ConstUtils.PLACE_AUTOCOMPLETE_REQUEST_CODE) {
-                try {
-                    val place = Autocomplete.getPlaceFromIntent(data!!)
-                    setPlaceData(place)
-                } catch (e: java.lang.Exception) {
+
+        when (requestCode) {
+            ConstUtils.PLACE_AUTOCOMPLETE_REQUEST_CODE -> {
+                if (resultCode == Activity.RESULT_OK && null != data) {
+                    try {
+                        val place: Place = Autocomplete.getPlaceFromIntent(data)
+                        setPlaceData(place)
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
                 }
-            } else if (requestCode == ConstUtils.REQUEST_TAKE_PHOTO) {
-                CropImage.activity(Uri.parse(logo_url))
-                    .setMinCropWindowSize(1400,1400)
-//                    .setMinCropWindowSize(displayMetrics.widthPixels,(displayMetrics.widthPixels*.6).toInt())
-//                    .setMaxCropResultSize(displayMetrics.widthPixels,(displayMetrics.widthPixels*.8).toInt())
-                    .setGuidelinesColor(android.R.color.transparent).start(this)
-            } else if (requestCode == ConstUtils.REQUEST_IMAGE_GET) {
-                val uri: Uri = data?.data!!
-                CropImage.activity(uri)
-                    .setMinCropWindowSize(1400,1400)
-//                    .setMinCropWindowSize(displayMetrics.widthPixels,(displayMetrics.widthPixels*.6).toInt())
-//                    .setMaxCropResultSize(displayMetrics.widthPixels,(displayMetrics.widthPixels*.8).toInt())
-                    .setGuidelinesColor(android.R.color.transparent).start(this)
             }
-            if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+            ConstUtils.REQUEST_TAKE_PHOTO -> {
+                if (resultCode == RESULT_OK) {
+                    CropImage.activity(imageUri)
+                        .setMinCropWindowSize(1400, 1400)
+//                    .setMinCropWindowSize(displayMetrics.widthPixels,(displayMetrics.widthPixels*.6).toInt())
+//                    .setMaxCropResultSize(displayMetrics.widthPixels,(displayMetrics.widthPixels*.8).toInt())
+                        .setGuidelinesColor(android.R.color.transparent).start(this)
+                } else {
+                    /* shohw error message*/
+                    Log.e("camera error", "Handle camera error")
+                }
+            }
+            ConstUtils.REQUEST_IMAGE_GET -> {
+                if (resultCode == RESULT_OK) {
+                    data?.data?.let { img ->
+                        CropImage.activity(img)
+                            .setMinCropWindowSize(1400, 1400)
+//                    .setMinCropWindowSize(displayMetrics.widthPixels,(displayMetrics.widthPixels*.6).toInt())
+//                    .setMaxCropResultSize(displayMetrics.widthPixels,(displayMetrics.widthPixels*.8).toInt())
+                            .setGuidelinesColor(android.R.color.transparent).start(this)
+
+                    }
+                } else {
+                    /* show error here */
+                    Log.e("gallery error", "Handle gallery error")
+
+                }
+            }
+            CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE -> {
                 val result = CropImage.getActivityResult(data)
-                if (resultCode == AppCompatActivity.RESULT_OK) {
+                if (resultCode == RESULT_OK) {
                     saveCaptureImageResults(result.uri)
                 } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
                     val error = result.error
+                    Log.e("Crop error", "Handle crop error")
+
                 }
             }
         }
+
     }
 
-    private fun setPlaceData(placeData: Place) {
+    private fun setPlaceData(placeData: Place?) {
         try {
             if (placeData != null) {
                 edtAddress.setText("")
                 edtCity.setText("")
                 edtState.setText("")
                 edtPostCode.setText("")
-                if (!placeData.getName()!!.toLowerCase().isEmpty()) {
+                if (placeData.name?.toLowerCase()?.isNotEmpty() == true) {
                     edtAddress.setText(placeData.getName())
                     edtAddress.setSelection(edtAddress.getText().length)
                 } else edtAddress.redError()
-                for (i in 0 until placeData.getAddressComponents()!!.asList().size) {
+                for (i in 0 until placeData.addressComponents!!.asList().size) {
                     val place: AddressComponent =
                         placeData.getAddressComponents()!!.asList().get(i)
 
@@ -404,7 +426,7 @@ class UserInfoActivity : AppCompatActivity(), CheckPermission.PermissionListener
                 .setCompressFormat(Bitmap.CompressFormat.JPEG)
                 .compressToFile(file)
             ivCoverPhoto.setImageURI(Uri.fromFile(compressedImageFile))
-            lblCoverPhoto.visibility=View.GONE
+            lblCoverPhoto.visibility = View.GONE
             new_logo_url = Pair(
                 if (compressedImageFile.path.isEmpty()
                         .not()
@@ -420,7 +442,7 @@ class UserInfoActivity : AppCompatActivity(), CheckPermission.PermissionListener
     }
 
 
-    fun openPlaceDialog() {
+    private fun openPlaceDialog() {
         val fields = Arrays.asList(
             Place.Field.PHONE_NUMBER,
             Place.Field.BUSINESS_STATUS,
@@ -441,7 +463,7 @@ class UserInfoActivity : AppCompatActivity(), CheckPermission.PermissionListener
         refreshTheme()
     }
 
-    fun refreshTheme() {
+    private fun refreshTheme() {
         edtUserName.viewTheme()
         edtCompanyName.viewTheme()
         edtEmail.viewTheme()

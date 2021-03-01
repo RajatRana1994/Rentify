@@ -1,16 +1,13 @@
 package com.rentify.appcode.dashboard.photos
 
-import android.app.Activity
 import android.app.Dialog
-import android.content.BroadcastReceiver
-import android.content.Context
-import android.content.Intent
-import android.content.IntentFilter
+import android.content.*
 import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.DisplayMetrics
+import android.util.Log
 import android.view.Gravity
 import android.view.MotionEvent
 import android.view.View
@@ -19,12 +16,10 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.FileProvider
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.rentify.R
 import com.rentify.RentifyApp.Companion.getPhotoDB
 import com.rentify.RentifyApp.Companion.session
-import com.rentify.appcode.dashboard.propertyinfo.PropertyInfoActivity
 import com.rentify.appcode.summary.SummaryActivity
 import com.rentify.database.theme.SessionManager
 import com.rentify.util.CheckPermission
@@ -34,18 +29,15 @@ import com.rentify.util.Extensions.Companion.headerTheme
 import com.rentify.util.Extensions.Companion.showDoneDialog
 import com.rentify.util.Extensions.Companion.statusBarTheme
 import com.theartofdev.edmodo.cropper.CropImage
-import com.theartofdev.edmodo.cropper.CropImageView
 import id.zelory.compressor.Compressor
 import kotlinx.android.synthetic.main.activity_photo.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 import java.io.File
-import java.io.FileNotFoundException
-import java.io.IOException
 
 class PhotoActivity : AppCompatActivity(), View.OnClickListener,
     CheckPermission.PermissionListener {
+
+    private var imageUri: Uri? = null
+
     val summary: Boolean by lazy { intent.getBooleanExtra("summary", false) }
     val addinfo: Boolean by lazy { intent.getBooleanExtra("addinfo", false) }
 
@@ -60,9 +52,7 @@ class PhotoActivity : AppCompatActivity(), View.OnClickListener,
     companion object {
         var myImageUri = ""
         fun createIntent(
-            context: Context,
-            forSummary: Boolean = true,
-            addinfo: Boolean=false
+            context: Context, forSummary: Boolean = true, addinfo: Boolean = false
         ): Intent {
             return Intent(context, PhotoActivity::class.java).apply {
                 putExtra("summary", forSummary)
@@ -78,7 +68,7 @@ class PhotoActivity : AppCompatActivity(), View.OnClickListener,
     var property_Photo4 = ""
     var property_Photo5 = ""
 
-    var photo_class=false
+    var photo_class = false
     var clickedView: View? = null
     var coverPhoto = Pair("", "")
     var propertyPhoto1 = Pair("", "")
@@ -86,7 +76,7 @@ class PhotoActivity : AppCompatActivity(), View.OnClickListener,
     var propertyPhoto3 = Pair("", "")
     var propertyPhoto4 = Pair("", "")
     var propertyPhoto5 = Pair("", "")
-    val displayMetrics by lazy {  DisplayMetrics() }
+    val displayMetrics by lazy { DisplayMetrics() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -94,6 +84,7 @@ class PhotoActivity : AppCompatActivity(), View.OnClickListener,
         window!!.statusBarTheme()
         setContentView(R.layout.activity_photo)
         headerTool.headerTheme()
+
         ivCoverPhoto.setOnClickListener(this)
         ivPropertyPhoto1.setOnClickListener(this)
         ivPropertyPhoto2.setOnClickListener(this)
@@ -113,24 +104,53 @@ class PhotoActivity : AppCompatActivity(), View.OnClickListener,
     }
 
     private fun setEditInfo() {
-        cover_Photo= session(this@PhotoActivity).getPrefValue(SessionManager.PROPERTY_COVER)!!
-        property_Photo1= session(this@PhotoActivity).getPrefValue(SessionManager.PROPERTY_IMAGE_1)!!
-        property_Photo2= session(this@PhotoActivity).getPrefValue(SessionManager.PROPERTY_IMAGE_2)!!
-        property_Photo3= session(this@PhotoActivity).getPrefValue(SessionManager.PROPERTY_IMAGE_3)!!
-        property_Photo4= session(this@PhotoActivity).getPrefValue(SessionManager.PROPERTY_IMAGE_4)!!
-        property_Photo5= session(this@PhotoActivity).getPrefValue(SessionManager.PROPERTY_IMAGE_5)!!
-        setImage(ivCoverPhoto, session(this@PhotoActivity).getPrefValue(SessionManager.PROPERTY_COVER)!!)
-        setImage(ivPropertyPhoto1, session(this@PhotoActivity).getPrefValue(SessionManager.PROPERTY_IMAGE_1)!!)
-        setImage(ivPropertyPhoto2, session(this@PhotoActivity).getPrefValue(SessionManager.PROPERTY_IMAGE_2)!!)
-        setImage(ivPropertyPhoto3, session(this@PhotoActivity).getPrefValue(SessionManager.PROPERTY_IMAGE_3)!!)
-        setImage(ivPropertyPhoto4, session(this@PhotoActivity).getPrefValue(SessionManager.PROPERTY_IMAGE_4)!!)
-        setImage(ivPropertyPhoto5, session(this@PhotoActivity).getPrefValue(SessionManager.PROPERTY_IMAGE_5)!!)
-        lblCover.visibility=if (File(cover_Photo?:"").exists().not()) View.VISIBLE else View.GONE
-        lblPropertyPhoto1.visibility=if (File(property_Photo1?:"").exists().not()) View.VISIBLE else View.GONE
-        lblPropertyPhoto2.visibility=if (File(property_Photo2?:"").exists().not()) View.VISIBLE else View.GONE
-        lblPropertyPhoto3.visibility=if (File(property_Photo3?:"").exists().not()) View.VISIBLE else View.GONE
-        lblPropertyPhoto4.visibility=if (File(property_Photo4?:"").exists().not()) View.VISIBLE else View.GONE
-        lblPropertyPhoto5.visibility=if (File(property_Photo5?:"").exists().not()) View.VISIBLE else View.GONE
+        cover_Photo = session(this@PhotoActivity).getPrefValue(SessionManager.PROPERTY_COVER)!!
+        property_Photo1 =
+            session(this@PhotoActivity).getPrefValue(SessionManager.PROPERTY_IMAGE_1)!!
+        property_Photo2 =
+            session(this@PhotoActivity).getPrefValue(SessionManager.PROPERTY_IMAGE_2)!!
+        property_Photo3 =
+            session(this@PhotoActivity).getPrefValue(SessionManager.PROPERTY_IMAGE_3)!!
+        property_Photo4 =
+            session(this@PhotoActivity).getPrefValue(SessionManager.PROPERTY_IMAGE_4)!!
+        property_Photo5 =
+            session(this@PhotoActivity).getPrefValue(SessionManager.PROPERTY_IMAGE_5)!!
+        setImage(
+            ivCoverPhoto,
+            session(this@PhotoActivity).getPrefValue(SessionManager.PROPERTY_COVER)!!
+        )
+        setImage(
+            ivPropertyPhoto1,
+            session(this@PhotoActivity).getPrefValue(SessionManager.PROPERTY_IMAGE_1)!!
+        )
+        setImage(
+            ivPropertyPhoto2,
+            session(this@PhotoActivity).getPrefValue(SessionManager.PROPERTY_IMAGE_2)!!
+        )
+        setImage(
+            ivPropertyPhoto3,
+            session(this@PhotoActivity).getPrefValue(SessionManager.PROPERTY_IMAGE_3)!!
+        )
+        setImage(
+            ivPropertyPhoto4,
+            session(this@PhotoActivity).getPrefValue(SessionManager.PROPERTY_IMAGE_4)!!
+        )
+        setImage(
+            ivPropertyPhoto5,
+            session(this@PhotoActivity).getPrefValue(SessionManager.PROPERTY_IMAGE_5)!!
+        )
+        lblCover.visibility =
+            if (File(cover_Photo ?: "").exists().not()) View.VISIBLE else View.GONE
+        lblPropertyPhoto1.visibility =
+            if (File(property_Photo1 ?: "").exists().not()) View.VISIBLE else View.GONE
+        lblPropertyPhoto2.visibility =
+            if (File(property_Photo2 ?: "").exists().not()) View.VISIBLE else View.GONE
+        lblPropertyPhoto3.visibility =
+            if (File(property_Photo3 ?: "").exists().not()) View.VISIBLE else View.GONE
+        lblPropertyPhoto4.visibility =
+            if (File(property_Photo4 ?: "").exists().not()) View.VISIBLE else View.GONE
+        lblPropertyPhoto5.visibility =
+            if (File(property_Photo5 ?: "").exists().not()) View.VISIBLE else View.GONE
 
     }
 
@@ -188,7 +208,7 @@ class PhotoActivity : AppCompatActivity(), View.OnClickListener,
         }
     }
 
-    fun setImage(view: ImageView, file: String, folder: String="") {
+    private fun setImage(view: ImageView, file: String, folder: String = "") {
 //        GlobalScope.launch {
 //            launch(Dispatchers.Main) {
 //                try {
@@ -210,10 +230,10 @@ class PhotoActivity : AppCompatActivity(), View.OnClickListener,
                 CheckPermission(this, this)
             }
             btnBack -> {
-                if (photo_class==true){
+                if (photo_class) {
                     LocalBroadcastManager.getInstance(this).sendBroadcast(Intent("GO_BACK_SUMMARY"))
                     finish()
-                }else{
+                } else {
                     finish()
                 }
 
@@ -298,21 +318,22 @@ class PhotoActivity : AppCompatActivity(), View.OnClickListener,
                     savePrefValue(SessionManager.PROPERTY_IMAGE_5, property_Photo5)
                 }
 
-                if (intent.hasExtra("page")){
+                if (intent.hasExtra("page")) {
                     showDoneDialog(msg = getString(R.string.file_save_success)) {
                         if (summary) {
                             startActivity(
-                                Intent(this@PhotoActivity,SummaryActivity::class.java)
+                                Intent(this@PhotoActivity, SummaryActivity::class.java)
                             )
                             finish()
                         } else {
                             onBackPressed()
                         }
                     }
-                }else{
+                } else {
                     if (summary) {
                         startActivity(
-                            Intent(this@PhotoActivity,SummaryActivity::class.java))
+                            Intent(this@PhotoActivity, SummaryActivity::class.java)
+                        )
                     } else {
                         onBackPressed()
                     }
@@ -321,92 +342,107 @@ class PhotoActivity : AppCompatActivity(), View.OnClickListener,
         }
     }
 
-    val mBuilder: Dialog by lazy { Dialog(this) }
-    fun showImagePop() {
-        mBuilder.setContentView(R.layout.camera_dialog);
-        mBuilder.getWindow()!!.getAttributes().windowAnimations = R.style.DialogAnimation;
-        mBuilder.window!!.setGravity(Gravity.BOTTOM)
-        mBuilder.window!!.setLayout(
-            ViewGroup.LayoutParams.MATCH_PARENT,
-            ViewGroup.LayoutParams.WRAP_CONTENT
-        )
-        mBuilder.findViewById<TextView>(R.id.titleCamera)
-            .setOnClickListener {
+
+    private val mBuilder: Dialog by lazy {
+        Dialog(this).apply {
+            setContentView(R.layout.camera_dialog);
+            window?.apply {
+                attributes.windowAnimations = R.style.DialogAnimation;
+                setGravity(Gravity.BOTTOM)
+                setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+            }
+            findViewById<TextView>(R.id.titleCamera).setOnClickListener {
                 mBuilder.dismiss()
                 dispatchTakePictureIntent()
             }
-        mBuilder.findViewById<TextView>(R.id.titleGallery)
-            .setOnClickListener {
+            findViewById<TextView>(R.id.titleGallery).setOnClickListener {
                 mBuilder.dismiss()
                 dispatchTakeGalleryIntent()
             }
-        mBuilder.findViewById<TextView>(R.id.titleCancel)
-            .setOnClickListener { mBuilder.dismiss() }
-        mBuilder.show();
+            findViewById<TextView>(R.id.titleCancel).setOnClickListener { mBuilder.dismiss() }
+
+        }
+    }
+
+    private fun showImagePop() {
+        if (!mBuilder.isShowing) {
+
+            mBuilder.show();
+        }
     }
 
     private fun dispatchTakePictureIntent() {
-        Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
-            // Ensure that there's a camera activity to handle the intent
-            takePictureIntent.resolveActivity(packageManager)?.also {
-                // Create the File where the photo should go
-                val photoFile: File? = try {
-                    ConstUtils.createImageFile(this@PhotoActivity)
-                } catch (ex: IOException) {
-                    // Error occurred while creating the File
-                    null
-                }
-                // Continue only if the File was successfully created
-                photoFile?.also {
-                    val photoURI: Uri = FileProvider.getUriForFile(
-                        this,
-                        "$packageName.provider",
-                        it
+        imageUri = null
+        val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        try {
+            if (takePictureIntent.resolveActivity(packageManager) != null) {
+                val values = ContentValues()
+                values.put(MediaStore.Images.Media.TITLE, getString(R.string.app_name))
+                values.put(MediaStore.Images.Media.DESCRIPTION, "From Camera")
+                imageUri =
+                    contentResolver.insert(
+                        MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values
                     )
-                    myImageUri = photoURI.toString()
-                    takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
-                    startActivityForResult(takePictureIntent, ConstUtils.REQUEST_TAKE_PHOTO)
-                }
+                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri)
+                startActivityForResult(takePictureIntent, ConstUtils.REQUEST_TAKE_PHOTO)
             }
-
+        } catch (e: Exception) {
+            Log.e("camera error", e.localizedMessage.toString())
+            e.printStackTrace()
         }
+
     }
 
     private fun dispatchTakeGalleryIntent() {
-        val intent = Intent(Intent.ACTION_GET_CONTENT).apply {
-            type = "image/*"
-        }
-        if (intent.resolveActivity(packageManager) != null) {
-            startActivityForResult(intent, ConstUtils.REQUEST_IMAGE_GET)
-        }
+        val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
+        intent.addCategory(Intent.CATEGORY_OPENABLE)
+        intent.putExtra(Intent.EXTRA_LOCAL_ONLY, true)
+        intent.type = "*/*"
+        intent.putExtra(Intent.EXTRA_MIME_TYPES, arrayOf("image/png", "image/jpg", "image/jpeg"))
+        startActivityForResult(
+            Intent.createChooser(intent, "Choose Image From"), ConstUtils.REQUEST_IMAGE_GET
+        )
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == Activity.RESULT_OK) {
-            if (requestCode == ConstUtils.REQUEST_TAKE_PHOTO) {
-                CropImage.activity(Uri.parse(myImageUri))
-//                    .setCropShape(CropImageView.CropShape.RECTANGLE)
-                    .setMinCropWindowSize(1400,1400)
+        when (requestCode) {
+            ConstUtils.REQUEST_TAKE_PHOTO -> {
+                if (resultCode == RESULT_OK) {
+                    CropImage.activity(imageUri)
+                        .setMinCropWindowSize(1400, 1400)
 //                    .setMinCropWindowSize(displayMetrics.widthPixels,(displayMetrics.widthPixels*.6).toInt())
 //                    .setMaxCropResultSize(displayMetrics.widthPixels,(displayMetrics.widthPixels*.8).toInt())
-                    .setGuidelinesColor(android.R.color.transparent).start(this)
-            } else if (requestCode == ConstUtils.REQUEST_IMAGE_GET) {
-                val uri: Uri = data?.data!!
-                CropImage.activity(uri)
-//                    .setCropShape(CropImageView.CropShape.RECTANGLE)
-//                    .setAspectRatio(2, 1)
-                    .setMinCropWindowSize(1400,1400)
-//                    .setMinCropWindowSize(displayMetrics.widthPixels,(displayMetrics.widthPixels*.6).toInt())
-//                    .setMaxCropResultSize(displayMetrics.widthPixels,(displayMetrics.widthPixels*.8).toInt())
-                    .setGuidelinesColor(android.R.color.transparent).start(this)
+                        .setGuidelinesColor(android.R.color.transparent).start(this)
+                } else {
+                    /* shohw error message*/
+                    Log.e("camera error", "Handle camera error")
+                }
             }
-            if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+            ConstUtils.REQUEST_IMAGE_GET -> {
+                if (resultCode == RESULT_OK) {
+                    data?.data?.let { img ->
+                        CropImage.activity(img)
+                            .setMinCropWindowSize(1400, 1400)
+//                    .setMinCropWindowSize(displayMetrics.widthPixels,(displayMetrics.widthPixels*.6).toInt())
+//                    .setMaxCropResultSize(displayMetrics.widthPixels,(displayMetrics.widthPixels*.8).toInt())
+                            .setGuidelinesColor(android.R.color.transparent).start(this)
+
+                    }
+                } else {
+                    /* show error here */
+                    Log.e("gallery error", "Handle gallery error")
+
+                }
+            }
+            CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE -> {
                 val result = CropImage.getActivityResult(data)
-                if (resultCode == AppCompatActivity.RESULT_OK) {
+                if (resultCode == RESULT_OK) {
                     saveCaptureImageResults(result.uri)
                 } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
                     val error = result.error
+                    Log.e("Crop error", "Handle crop error")
+
                 }
             }
         }
@@ -495,12 +531,18 @@ class PhotoActivity : AppCompatActivity(), View.OnClickListener,
 //            }
 */
             (clickedView!! as ImageView).setImageURI(Uri.fromFile(compressedImageFile))
-            lblCover.visibility=if (File(cover_Photo?:"").exists().not()) View.VISIBLE else View.GONE
-            lblPropertyPhoto1.visibility=if (File(property_Photo1?:"").exists().not()) View.VISIBLE else View.GONE
-            lblPropertyPhoto2.visibility=if (File(property_Photo2?:"").exists().not()) View.VISIBLE else View.GONE
-            lblPropertyPhoto3.visibility=if (File(property_Photo3?:"").exists().not()) View.VISIBLE else View.GONE
-            lblPropertyPhoto4.visibility=if (File(property_Photo4?:"").exists().not()) View.VISIBLE else View.GONE
-            lblPropertyPhoto5.visibility=if (File(property_Photo5?:"").exists().not()) View.VISIBLE else View.GONE
+            lblCover.visibility =
+                if (File(cover_Photo ?: "").exists().not()) View.VISIBLE else View.GONE
+            lblPropertyPhoto1.visibility =
+                if (File(property_Photo1 ?: "").exists().not()) View.VISIBLE else View.GONE
+            lblPropertyPhoto2.visibility =
+                if (File(property_Photo2 ?: "").exists().not()) View.VISIBLE else View.GONE
+            lblPropertyPhoto3.visibility =
+                if (File(property_Photo3 ?: "").exists().not()) View.VISIBLE else View.GONE
+            lblPropertyPhoto4.visibility =
+                if (File(property_Photo4 ?: "").exists().not()) View.VISIBLE else View.GONE
+            lblPropertyPhoto5.visibility =
+                if (File(property_Photo5 ?: "").exists().not()) View.VISIBLE else View.GONE
 
         } catch (e: Exception) {
             e.printStackTrace()
@@ -525,9 +567,9 @@ class PhotoActivity : AppCompatActivity(), View.OnClickListener,
         LocalBroadcastManager.getInstance(this).unregisterReceiver(broardReceiver)
     }
 
-    val broardReceiver = object : BroadcastReceiver() {
+    private val broardReceiver = object : BroadcastReceiver() {
         override fun onReceive(p0: Context?, p1: Intent?) {
-            photo_class=true
+            photo_class = true
             setEditInfo()
         }
     }
@@ -535,10 +577,10 @@ class PhotoActivity : AppCompatActivity(), View.OnClickListener,
 
     override fun onBackPressed() {
         super.onBackPressed()
-        if (photo_class==true){
+        if (photo_class) {
             LocalBroadcastManager.getInstance(this).sendBroadcast(Intent("GO_BACK_SUMMARY"))
             finish()
-        }else{
+        } else {
             finish()
         }
     }
